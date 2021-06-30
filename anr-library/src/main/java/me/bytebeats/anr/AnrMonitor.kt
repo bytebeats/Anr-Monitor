@@ -15,7 +15,7 @@ import android.os.Looper
  * @param timeoutInterval The interval, in milliseconds, between to checks of the UI thread.
  *                        It is therefore the maximum time the UI may freeze before being reported as ANR.
  */
-class AnrMonitor(val timeoutInterval: Long = DEFAULT_ANR_TIMEOUT) : Thread() {
+class AnrMonitor(private val timeoutInterval: Long = DEFAULT_ANR_TIMEOUT) : Thread() {
 
     init {
         name = "||ANR-Monitor||"
@@ -145,8 +145,10 @@ class AnrMonitor(val timeoutInterval: Long = DEFAULT_ANR_TIMEOUT) : Thread() {
             }
             // If the main thread has not handled _ticker, it is blocked. ANR.
             if (mTick != 0L && !mReported) {
+                //noinspection ConstantConditions
                 if (!mIgnoreDebugger && (Debug.isDebuggerConnected() || Debug.waitingForDebugger())) {
-                    AnrLogUtil.logw("An ANR was detected but ignored because the debugger is connected (you can prevent this with setIgnoreDebugger(true))")
+                    AnrLog.logd("An ANR was detected but ignored because the debugger is connected (you can prevent this with setIgnoreDebugger(true))")
+                    mReported = true
                     continue
                 }
                 interval = mAnrInterceptor?.intercept(mTick) ?: 0
@@ -176,7 +178,7 @@ class AnrMonitor(val timeoutInterval: Long = DEFAULT_ANR_TIMEOUT) : Thread() {
 
         private val DEFAULT_INTERRUPTION_LISTENER = object : OnInterruptedListener {
             override fun onInterrupted(e: InterruptedException) {
-                AnrLogUtil.logd(e.message)
+                AnrLog.logd(e.message)
             }
         }
 

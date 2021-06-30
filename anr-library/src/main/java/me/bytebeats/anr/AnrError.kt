@@ -54,10 +54,7 @@ class AnrError(
             }
             var throwable: StackTraceCollector.StackTraceThrowable? = null
             for (entry in threadStackTraces.entries) {
-                throwable =
-                    StackTraceCollector(threadTitle(entry.key), entry.value).StackTraceThrowable(
-                        throwable
-                    )
+                throwable = StackTraceCollector(threadTitle(entry.key), entry.value).StackTraceThrowable(throwable)
             }
             return AnrError(throwable!!, duration)
         }

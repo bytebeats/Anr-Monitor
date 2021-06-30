@@ -7,7 +7,7 @@ import android.util.Log
  * E-mail: panchen@itiger.com
  * Company: https://www.itiger.com
  */
-object AnrLogUtil {
+object AnrLog {
     var logStackTrace = true
     private const val TAG = "anr-log"
 
