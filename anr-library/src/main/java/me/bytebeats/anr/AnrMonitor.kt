@@ -3,6 +3,9 @@ package me.bytebeats.anr
 import android.os.Debug
 import android.os.Handler
 import android.os.Looper
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 
 /**
  * Created by Pan Chen on 2021/6/30 : 12:26
@@ -15,7 +18,8 @@ import android.os.Looper
  * @param timeoutInterval The interval, in milliseconds, between to checks of the UI thread.
  *                        It is therefore the maximum time the UI may freeze before being reported as ANR.
  */
-class AnrMonitor(private val timeoutInterval: Long = DEFAULT_ANR_TIMEOUT) : Thread() {
+class AnrMonitor(private val timeoutInterval: Long = DEFAULT_ANR_TIMEOUT) : Thread(),
+    LifecycleEventObserver {
 
     init {
         name = "||ANR-Monitor||"
@@ -36,6 +40,9 @@ class AnrMonitor(private val timeoutInterval: Long = DEFAULT_ANR_TIMEOUT) : Thre
 
     @Volatile
     private var mReported = false
+
+    @Volatile
+    private var mStopped = false
 
     private val mTicker = Runnable {
         mTick = 0
@@ -132,6 +139,15 @@ class AnrMonitor(private val timeoutInterval: Long = DEFAULT_ANR_TIMEOUT) : Thre
     override fun run() {
         var interval = timeoutInterval
         while (!isInterrupted) {
+            if (mStopped) {
+                try {
+                    Thread.sleep(timeoutInterval)
+                } catch (e: InterruptedException) {
+                    mInterruptedListener?.onInterrupted(e)
+                    return
+                }
+                continue
+            }
             val needPost = mTick == 0L
             mTick += interval
             if (needPost) {
@@ -165,6 +181,40 @@ class AnrMonitor(private val timeoutInterval: Long = DEFAULT_ANR_TIMEOUT) : Thre
                 mReported = true
             }
         }
+    }
+
+    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+        if (event == Lifecycle.Event.ON_CREATE) {//app is created
+            onAppCreate()
+        } else if (event == Lifecycle.Event.ON_STOP) {//no activities in stack
+            onAppStop()
+        } else if (event == Lifecycle.Event.ON_START) {
+            onAppStart()
+        }
+    }
+
+    private fun onAppStart() {
+        mStopped = false
+    }
+
+    private fun onAppCreate() {
+        this.start()
+    }
+
+    private fun onAppStop() {
+        mStopped = true
+    }
+
+    @Synchronized
+    override fun start() {
+        if (isStarted()) {
+            return
+        }
+        super.start()
+    }
+
+    private fun isStarted(): Boolean {
+        return state.ordinal > State.NEW.ordinal && state.ordinal < State.TERMINATED.ordinal
     }
 
     companion object {

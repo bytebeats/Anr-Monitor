@@ -2,11 +2,13 @@ package me.bytebeats.anrmonitor
 
 import android.app.Application
 import android.util.Log
+import androidx.lifecycle.ProcessLifecycleOwner
 import me.bytebeats.anr.AnrError
 import me.bytebeats.anr.AnrInterceptor
 import me.bytebeats.anr.AnrListener
 import me.bytebeats.anr.AnrLog
 import me.bytebeats.anr.AnrMonitor
+import me.bytebeats.anr.OnInterruptedListener
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.ObjectOutputStream
@@ -17,7 +19,7 @@ import java.io.ObjectOutputStream
  * Company: https://www.itiger.com
  */
 class APMApplication : Application() {
-    val anrMonitor = AnrMonitor(2000)
+    val anrMonitor = AnrMonitor(3000)
 
     val silentAnrListener = object : AnrListener {
         override fun onAppNotResponding(error: AnrError) {
@@ -29,7 +31,7 @@ class APMApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        AnrLog.logStackTrace = true
+        AnrLog.logStackTrace = false
         anrMonitor.setIgnoreDebugger(true)
             .setReportAllThreads()
             .setAnrListener(object : AnrListener {
@@ -53,6 +55,11 @@ class APMApplication : Application() {
                     }
                     return ret
                 }
-            }).start()
+            }).setOnInterruptedListener(object : OnInterruptedListener {
+                override fun onInterrupted(e: InterruptedException) {
+                    throw e
+                }
+            })
+        ProcessLifecycleOwner.get().lifecycle.addObserver(anrMonitor)
     }
 }
