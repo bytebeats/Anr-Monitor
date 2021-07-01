@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/anr-library" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/deadlock-library" />
+            <option value="$PROJECT_DIR$/lags-library" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -9,6 +9,10 @@ import me.bytebeats.anr.AnrListener
 import me.bytebeats.anr.AnrLog
 import me.bytebeats.anr.AnrMonitor
 import me.bytebeats.anr.OnInterruptedListener
+import me.bytebeats.lag.LagMonitor
+import me.bytebeats.lag.OnFrameJankListener
+import me.bytebeats.lag.OnProcessNotRespondingListener
+import me.bytebeats.lag.OnUIThreadBlockListener
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.ObjectOutputStream
@@ -61,5 +65,27 @@ class APMApplication : Application() {
                 }
             })
         ProcessLifecycleOwner.get().lifecycle.addObserver(anrMonitor)
+
+        val lagMonitor = LagMonitor.Builder(this.applicationContext)
+            .setThresholdTimeMillis(3L)
+            .setLagLogEnabled(true)
+            .setMonitorMode(LagMonitor.MonitorMode.UI)
+            .setOnFrameJankListener(object : OnFrameJankListener {
+                override fun onJank(janks: Int) {
+                    Log.d("lag-log", "janks: $janks")
+                }
+            })
+            .setOnUIThreadRunListener(object : OnUIThreadBlockListener {
+                override fun onBlock(lagTime: Long, uiRunTime: Long) {
+                    Log.d("lag-log", "lagTime: $lagTime,  uiRunTime: $uiRunTime")
+                }
+            })
+            .setOnProcessNotRespondingListener(object : OnProcessNotRespondingListener {
+                override fun onNotResponding(processInfo: String?) {
+                    Log.d("lag-log", "processInfo: $processInfo")
+                }
+            })
+            .build()
+        ProcessLifecycleOwner.get().lifecycle.addObserver(lagMonitor)
     }
 }
