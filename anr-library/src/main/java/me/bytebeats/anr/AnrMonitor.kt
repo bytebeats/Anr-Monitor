@@ -50,29 +50,17 @@ class AnrMonitor(private val timeoutInterval: Long = DEFAULT_ANR_TIMEOUT) : Thre
     }
 
     fun setAnrListener(anrListener: AnrListener?): AnrMonitor {
-        if (anrListener == null) {
-            mAnrListener = DEFAULT_ANR_LISTENER
-        } else {
-            mAnrListener = anrListener
-        }
+        mAnrListener = anrListener ?: DEFAULT_ANR_LISTENER
         return this
     }
 
     fun setAnrInterceptor(anrInterceptor: AnrInterceptor?): AnrMonitor {
-        if (anrInterceptor == null) {
-            mAnrInterceptor = DEFAULT_ANR_INTERCEPTOR
-        } else {
-            mAnrInterceptor = anrInterceptor
-        }
+        mAnrInterceptor = anrInterceptor ?: DEFAULT_ANR_INTERCEPTOR
         return this
     }
 
     fun setOnInterruptedListener(onInterruptedListener: OnInterruptedListener?): AnrMonitor {
-        if (onInterruptedListener == null) {
-            mInterruptedListener = DEFAULT_INTERRUPTION_LISTENER
-        } else {
-            mInterruptedListener = onInterruptedListener
-        }
+        mInterruptedListener = onInterruptedListener ?: DEFAULT_INTERRUPTION_LISTENER
         return this
     }
 
