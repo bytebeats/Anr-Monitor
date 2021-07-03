@@ -1,6 +1,8 @@
 package me.bytebeats.deadlock;
 
+import android.os.Build;
 import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.util.Log;
 
 import java.lang.Thread.State;
@@ -52,6 +54,10 @@ public class DeadLockMonitor {
     }
 
     public void start() {
+        if (VERSION.SDK_INT > VERSION_CODES.Q) {
+            log("DeadLockMonitor won't work on Android 10, Sooooooorrrrrryyyyyyyy");
+            return;
+        }
         int initResult = nativeInit(VERSION.SDK_INT);
         log("native init result: " + initResult);
         Map<Integer, DeadLockThreadWrapper> blockedThreads = new HashMap<>();
