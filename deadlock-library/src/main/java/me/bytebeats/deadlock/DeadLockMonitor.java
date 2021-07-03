@@ -22,8 +22,16 @@ public class DeadLockMonitor {
     private static final String TAG = "deadlock-java";
 
     static {
-        System.loadLibrary("deadlock_lib");
+        System.loadLibrary("deadlock-lib");
     }
+
+    private DeadLockListener listener;
+
+    public DeadLockMonitor setDeadLockListener(DeadLockListener listener) {
+        this.listener = listener;
+        return this;
+    }
+
 
     private static String threadName(Thread thread) {
         return thread.getName() + " (state = " + thread.getState().toString() + ")";
@@ -43,22 +51,24 @@ public class DeadLockMonitor {
         return allThreads;
     }
 
-    void start() {
+    public void start() {
         int initResult = nativeInit(VERSION.SDK_INT);
         log("native init result: " + initResult);
         Map<Integer, DeadLockThreadWrapper> blockedThreads = new HashMap<>();
         Thread[] allThreads = allThreads();
         if (allThreads != null) {
             for (Thread thread : allThreads) {
-                if (thread.getState() == State.BLOCKED) {
-                    long thdAddr = (long) ReflectUtil.invokeField(thread, "nativePeer");
+                if (thread != null && thread.getState() == State.BLOCKED) {
+                    Object nativePeer = ReflectUtil.invokeField(thread, "nativePeer");
+                    if (nativePeer == null) continue;
+                    long thdAddr = (long) nativePeer;
                     if (thdAddr <= 0) {
                         log("thread address not found");
                         continue;
                     }
                     log("blocked Thread[id = " + thread.getId() + ", address = " + thdAddr + "]");
-                    int currentThreadId = getThreadIdFromNativePeer(thdAddr);
                     int blockThreadId = getContendedThreadIdArt(thdAddr);
+                    int currentThreadId = getThreadIdFromNativePeer(thdAddr);
                     log("current thread id = " + currentThreadId + ", blocked thread id = " + blockThreadId);
                     if (currentThreadId != 0 && blockThreadId != 0) {
                         blockedThreads.put(currentThreadId, new DeadLockThreadWrapper(currentThreadId, blockThreadId, thread));
@@ -82,6 +92,9 @@ public class DeadLockMonitor {
                 log("deadThread.Name = " + deadThread.getName());
                 DeadLockStackTraces.Error error = new DeadLockStackTraces(threadName(deadThread), deadThread.getStackTrace()).new Error(null);
                 DeadLockError deadLockError = new DeadLockError(deadThread, error);
+                if (listener != null) {
+                    listener.onError(deadLockError);
+                }
             }
         }
     }

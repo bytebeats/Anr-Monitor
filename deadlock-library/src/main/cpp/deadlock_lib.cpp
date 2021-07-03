@@ -30,7 +30,7 @@ Java_me_bytebeats_deadlock_DeadLockMonitor_nativeInit(JNIEnv *env, jobject thiz,
     android_sdk_int = sdk_int;
     //dlopen libart.so
     //init
-    ndk_init(env)
+    ndk_init(env);
 
     //load libart.so
     void *so_addr = ndk_dl_open("libart.so", RTLD_NOLOAD);
@@ -80,7 +80,7 @@ Java_me_bytebeats_deadlock_DeadLockMonitor_getContendedThreadIdArt(JNIEnv *env, 
         if (monitorObj != 0) {
             Log_i("monitorObj != 0");
             // 获取这个monitor的持有者，返回一个线程id
-            monitor_thread_id = ((int (*)(long)) get_lock_owner_thread_id)(monitorObj)
+            monitor_thread_id = ((int (*)(long)) get_lock_owner_thread_id)(monitorObj);
         } else {
             monitor_thread_id = 0;
         }
@@ -97,7 +97,7 @@ JNICALL
 Java_me_bytebeats_deadlock_DeadLockMonitor_getThreadIdFromNativePeer(JNIEnv *env, jobject thiz,
                                                                      jlong thd_native_peer) {
     Log_i("getThreadIdFromNativePeer");
-    if (thd_addr != 0) {
+    if (thd_native_peer != 0) {
         Log_i("thread id != 0");
         if (android_sdk_int > 20) {//Android 5.0
             //reinterpret_cast 强制类型转换
