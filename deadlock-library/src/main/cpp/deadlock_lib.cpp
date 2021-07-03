@@ -55,12 +55,12 @@ Java_me_bytebeats_deadlock_DeadLockMonitor_nativeInit(JNIEnv *env, jobject thiz,
 const char *get_lock_owner_symbol_name(jint
 sdk_int) {
 if (sdk_int <= 29) {
-//android 9.0 之前
+//pre android 9.0
 //http://androidxref.com/9.0.0_r3/xref/system/core/libbacktrace/testdata/arm/libart.so 搜索 GetLockOwnerThreadId
 return "_ZN3art7Monitor20GetLockOwnerThreadIdEPNS_6mirror6ObjectE";
 } else {
-//android 10.0
-// todo 10.0 源码中这个方法变了，需要自行查阅
+//android 10.0+
+//Sorry, androidxref/.../libart.so is no available, and in Google Git, I haven't found this so library.
 return "_ZN3art7Monitor20GetLockOwnerThreadIdEPNS_6mirror6ObjectE";
 }
 }
