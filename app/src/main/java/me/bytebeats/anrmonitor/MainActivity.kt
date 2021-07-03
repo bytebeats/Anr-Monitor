@@ -2,11 +2,13 @@ package me.bytebeats.anrmonitor
 
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import me.bytebeats.anr.AnrLog
+import me.bytebeats.deadlock.DeadLockMonitor
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private val deadLockAnr by lazy { findViewById<TextView>(R.id.dead_lock_anr) }
     private val minAnrDuration by lazy { findViewById<TextView>(R.id.min_anr_duration) }
     private val reportMode by lazy { findViewById<TextView>(R.id.report_mode) }
@@ -14,6 +16,17 @@ class MainActivity : AppCompatActivity() {
     private val threadSleep by lazy { findViewById<TextView>(R.id.thread_sleep) }
     private val infiniteLoop by lazy { findViewById<TextView>(R.id.infinite_loop) }
     private val deadLock by lazy { findViewById<TextView>(R.id.dead_lock) }
+    private val deadLockMonitorTV by lazy { findViewById<TextView>(R.id.dead_lock_monitor) }
+
+    private val deadLockMonitor by lazy {
+        DeadLockMonitor().setDeadLockListener {
+            Log.i(
+                "deadlock",
+                "",
+                it
+            )
+        }
+    }
 
     private val mMutex = Any()
 
@@ -50,7 +63,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         val anrApp = application as APMApplication
         deadLockAnr.setOnClickListener {
             AnrLog.logd("createDeadLockAnr")
@@ -92,6 +104,10 @@ class MainActivity : AppCompatActivity() {
         minAnrDuration.setOnClickListener {
             anrApp.duration = anrApp.duration % 6 + 2
             minAnrDuration.text = "${anrApp.duration} seconds"
+        }
+        DeadLockUtils.createDeadLock()
+        deadLockMonitorTV.setOnClickListener {
+            deadLockMonitor.start()
         }
     }
 }

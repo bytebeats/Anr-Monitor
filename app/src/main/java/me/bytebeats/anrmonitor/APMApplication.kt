@@ -64,7 +64,7 @@ class APMApplication : Application() {
                     throw e
                 }
             })
-        ProcessLifecycleOwner.get().lifecycle.addObserver(anrMonitor)
+//        ProcessLifecycleOwner.get().lifecycle.addObserver(anrMonitor)
 
         val lagMonitor = LagMonitor.Builder(this.applicationContext)
             .setThresholdTimeMillis(3L)
@@ -86,6 +86,6 @@ class APMApplication : Application() {
                 }
             })
             .build()
-        ProcessLifecycleOwner.get().lifecycle.addObserver(lagMonitor)
+//        ProcessLifecycleOwner.get().lifecycle.addObserver(lagMonitor)
     }
 }

@@ -29,7 +29,9 @@ static union {
                               const void *called);
 } STUBS;
 
-void JNIEXPORT ndk_init(JNIEnv *env){
+void JNIEXPORT
+ndk_init(JNIEnv
+*env){
 if(SDK_INT <= 0) {
 char sdk[PROP_VALUE_MAX];
 __system_property_get("ro.build.version.sdk", sdk);
@@ -123,59 +125,69 @@ Log_i("init done! quick_on_stack_replace = %p, quick_on_stack_back = %p", STUBS.
 }
 }
 
-void *JNIEXPORT ndk_dl_open(const char *filename, int flag) {
+void *JNIEXPORT
+
+ndk_dl_open(const char *filename, int flag) {
     if (SDK_INT >= 24) {
 #if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || defined(__arm__)
-        return STUBS.quick_on_stack_replace(filename, (void *)flag, quick_on_stack_back, dlopen)
+        return STUBS.quick_on_stack_replace(filename, (void *)flag, quick_on_stack_back, dlopen);
 #else
 # error UNSUPPORTED
 #endif
     }
-    return dlopen(filename, flag)
+    return dlopen(filename, flag);
 }
 
-int JNIEXPORT ndk_dl_close(void *handle) {
+int JNIEXPORT
+
+ndk_dl_close(void *handle) {
     if (SDK_INT >= 24) {
 #if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || defined(__arm__)
-        return (int)STUBS.quick_on_stack_replace(handle, NULL, quick_on_stack_back, dlclose)
+        return (int)STUBS.quick_on_stack_replace(handle, NULL, quick_on_stack_back, dlclose);
 #else
 # error UNSUPPORTED
 #endif
     }
-    return dlclose(handle)
+    return dlclose(handle);
 }
 
-const char *JNIEXPORT ndk_dl_error(void) {
+const char *JNIEXPORT
+
+ndk_dl_error(void) {
     if (SDK_INT >= 24) {
 #if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || defined(__arm__)
-        return STUBS.quick_on_stack_replace(NULL, NULL, quick_on_stack_back, dlerror)
+        return STUBS.quick_on_stack_replace(NULL, NULL, quick_on_stack_back, dlerror);
 #else
 # error UNSUPPORTED
 #endif
     }
-    return dlerror()
+    return dlerror();
 }
 
-void *JNIEXPORT ndk_dl_symbol(void *handle, const char *symbol) {
+void *JNIEXPORT
+
+ndk_dl_symbol(void *handle, const char *symbol) {
     if (SDK_INT >= 24) {
 #if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || defined(__arm__)
-        return STUBS.quick_on_stack_replace(handle, symbol, quick_on_stack_back, dlsym)
+        return STUBS.quick_on_stack_replace(handle, symbol, quick_on_stack_back, dlsym);
 #else
 # error UNSUPPORTED
 #endif
     }
-    return dlsym(handle, symbol)
+    return dlsym(handle, symbol);
 }
 
-int JNIEXPORT ndk_dl_addr(const void *addr, Dl_info *info) {
+int JNIEXPORT
+
+ndk_dl_addr(const void *addr, Dl_info *info) {
     if (SDK_INT >= 24) {
 #if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || defined(__arm__)
-        return (int)STUBS.quick_on_stack_replace(addr, info, quick_on_stack_back, dladdr)
+        return (int)STUBS.quick_on_stack_replace(addr, info, quick_on_stack_back, dladdr);
 #else
 # error UNSUPPORTED
 #endif
     }
-    return dladdr(addr, info)
+    return dladdr(addr, info);
 }
 
 
