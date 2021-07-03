@@ -1,5 +1,5 @@
 include ':app'
 rootProject.name = "Anr-Monitor"
 include ':anr-library'
-include ':deadlock-library'
 include ':lags-library'
+include ':deadlock-library'
