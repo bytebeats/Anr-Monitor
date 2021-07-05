@@ -11,10 +11,11 @@ import kotlin.math.max
 import kotlin.math.min
 
 /**
- * Created by Pan Chen on 2021/7/1 : 16:22
- * E-mail: panchen@itiger.com
- * Company: https://www.itiger.com
+ * Created by bytebeats on 2021/7/1 : 16:22
+ * E-mail: happychinapc@gmail.com
+ * Quote: Peasant. Educated. Worker
  */
+
 class LagMonitor private constructor(
     private val context: Context,
     private var thresholdTimeMillis: Long,

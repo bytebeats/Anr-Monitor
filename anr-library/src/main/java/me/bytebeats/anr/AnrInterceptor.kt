@@ -1,9 +1,9 @@
 package me.bytebeats.anr
 
 /**
- * Created by Pan Chen on 2021/6/30 : 11:29
- * E-mail: panchen@itiger.com
- * Company: https://www.itiger.com
+ * Created by bytebeats on 2021/6/30 : 11:29
+ * E-mail: happychinapc@gmail.com
+ * Quote: Peasant. Educated. Worker
  */
 
 /**

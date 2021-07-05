@@ -4,10 +4,11 @@ import android.os.Looper
 import java.util.*
 
 /**
- * Created by Pan Chen on 2021/6/30 : 12:08
- * E-mail: panchen@itiger.com
- * Company: https://www.itiger.com
+ * Created by bytebeats on 2021/6/30 : 12:08
+ * E-mail: happychinapc@gmail.com
+ * Quote: Peasant. Educated. Worker
  */
+
 /**
  * Thread Comparator: Main Thread is first, others ordered by Thread names.
  */

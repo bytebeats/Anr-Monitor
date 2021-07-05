@@ -4,10 +4,11 @@ import me.bytebeats.anr.AnrLog
 import kotlin.concurrent.thread
 
 /**
- * Created by Pan Chen on 2021/6/30 : 18:30
- * E-mail: panchen@itiger.com
- * Company: https://www.itiger.com
+ * Created by bytebeats on 2021/6/30 : 18:30
+ * E-mail: happychinapc@gmail.com
+ * Quote: Peasant. Educated. Worker
  */
+
 /**
  * utility class to create dead lock and anr
  */

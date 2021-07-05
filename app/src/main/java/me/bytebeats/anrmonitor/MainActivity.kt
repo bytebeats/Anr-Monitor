@@ -8,6 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import me.bytebeats.anr.AnrLog
 import me.bytebeats.deadlock.DeadLockMonitor
 
+/**
+ * Created by bytebeats on 2021/6/28 : 19:55
+ * E-mail: happychinapc@gmail.com
+ * Quote: Peasant. Educated. Worker
+ */
+
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private val deadLockAnr by lazy { findViewById<TextView>(R.id.dead_lock_anr) }
     private val minAnrDuration by lazy { findViewById<TextView>(R.id.min_anr_duration) }

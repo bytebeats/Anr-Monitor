@@ -3,10 +3,11 @@ package me.bytebeats.anr
 import android.util.Log
 
 /**
- * Created by Pan Chen on 2021/6/30 : 14:27
- * E-mail: panchen@itiger.com
- * Company: https://www.itiger.com
+ * Created by bytebeats on 2021/6/30 : 14:27
+ * E-mail: happychinapc@gmail.com
+ * Quote: Peasant. Educated. Worker
  */
+
 object AnrLog {
     var logStackTrace = true
     private const val TAG = "anr-log"
