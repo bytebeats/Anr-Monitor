@@ -1,6 +1,5 @@
 package me.bytebeats.deadlock;
 
-import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.util.Log;
@@ -14,10 +13,11 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by Pan Chen on 2021/7/2 : 11:24
- * E-mail: panchen@itiger.com
- * Company: https://www.itiger.com
+ * Created by bytebeats on 2021/7/2 : 11:24
+ * E-mail: happychinapc@gmail.com
+ * Quote: Peasant. Educated. Worker
  */
+
 public class DeadLockMonitor {
 
     public static boolean logEnabled = true;

@@ -3,10 +3,11 @@ package me.bytebeats.anr
 import android.os.Looper
 
 /**
- * Created by Pan Chen on 2021/6/30 : 11:42
- * E-mail: panchen@itiger.com
- * Company: https://www.itiger.com
+ * Created by bytebeats on 2021/6/30 : 11:42
+ * E-mail: happychinapc@gmail.com
+ * Quote: Peasant. Educated. Worker
  */
+
 class AnrError(
     private val stackTraceThrowable: StackTraceCollector.StackTraceThrowable,
     private val duration: Long

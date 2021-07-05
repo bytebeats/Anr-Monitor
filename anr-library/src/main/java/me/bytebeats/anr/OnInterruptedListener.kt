@@ -1,10 +1,11 @@
 package me.bytebeats.anr
 
 /**
- * Created by Pan Chen on 2021/6/30 : 11:36
- * E-mail: panchen@itiger.com
- * Company: https://www.itiger.com
+ * Created by bytebeats on 2021/6/30 : 11:36
+ * E-mail: happychinapc@gmail.com
+ * Quote: Peasant. Educated. Worker
  */
+
 /**
  * Anr-monitor run on a Thread which may be interrupted.
  */

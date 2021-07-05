@@ -6,10 +6,11 @@ import androidx.annotation.Nullable;
 import java.io.Serializable;
 
 /**
- * Created by Pan Chen on 2021/7/3 : 17:39
- * E-mail: panchen@itiger.com
- * Company: https://www.itiger.com
+ * Created by bytebeats on 2021/7/3 : 17:39
+ * E-mail: happychinapc@gmail.com
+ * Quote: Peasant. Educated. Worker
  */
+
 class DeadLockStackTraces implements Serializable {
     private final String name;
     private final StackTraceElement[] stackTraceElements;

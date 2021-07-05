@@ -18,10 +18,11 @@ import java.io.IOException
 import java.io.ObjectOutputStream
 
 /**
- * Created by Pan Chen on 2021/6/30 : 15:23
- * E-mail: panchen@itiger.com
- * Company: https://www.itiger.com
+ * Created by bytebeats on 2021/6/30 : 15:23
+ * E-mail: happychinapc@gmail.com
+ * Quote: Peasant. Educated. Worker
  */
+
 class APMApplication : Application() {
     val anrMonitor = AnrMonitor(3000)
 

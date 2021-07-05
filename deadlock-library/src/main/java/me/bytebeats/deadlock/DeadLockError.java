@@ -3,9 +3,11 @@ package me.bytebeats.deadlock;
 import androidx.annotation.NonNull;
 
 /**
- * Created by Pan Chen on 2021/7/3 : 17:51
- * E-mail: panchen@itiger.com
- * Company: https://www.itiger.com
+ *
+ * Created by bytebeats on 2021/7/3 : 17:51
+ * E-mail: happychinapc@gmail.com
+ * Quote: Peasant. Educated. Worker
+ *
  */
 public class DeadLockError extends Error {
     public DeadLockError(Thread thread, DeadLockStackTraces.Error error) {

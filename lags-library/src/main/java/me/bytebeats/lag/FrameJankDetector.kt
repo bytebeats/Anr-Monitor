@@ -5,10 +5,11 @@ import me.bytebeats.lag.LagMonitor.Companion.ANR_TIME_LIMIT
 import kotlin.math.pow
 
 /**
- * Created by Pan Chen on 2021/7/1 : 17:31
- * E-mail: panchen@itiger.com
- * Company: https://www.itiger.com
+ * Created by bytebeats on 2021/7/1 : 17:31
+ * E-mail: happychinapc@gmail.com
+ * Quote: Peasant. Educated. Worker
  */
+
 /**
  * Post {@see Choreographer.FrameCallback} to {@see Choreographer#getInstance()} to records the time every frame took
  */

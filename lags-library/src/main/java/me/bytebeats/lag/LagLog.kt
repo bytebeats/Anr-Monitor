@@ -3,10 +3,11 @@ package me.bytebeats.lag
 import android.util.Log
 
 /**
- * Created by Pan Chen on 2021/7/1 : 14:27
- * E-mail: panchen@itiger.com
- * Company: https://www.itiger.com
+ * Created by bytebeats on 2021/7/1 : 14:27
+ * E-mail: happychinapc@gmail.com
+ * Quote: Peasant. Educated. Worker
  */
+
 object LagLog {
     var logStackTrace = true
     var enabled = true

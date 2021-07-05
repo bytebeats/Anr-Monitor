@@ -6,10 +6,11 @@ import android.util.Printer
 import me.bytebeats.lag.LagMonitor.Companion.ANR_TIME_LIMIT
 
 /**
- * Created by Pan Chen on 2021/7/1 : 19:55
- * E-mail: panchen@itiger.com
- * Company: https://www.itiger.com
+ * Created by bytebeats on 2021/7/1 : 19:55
+ * E-mail: happychinapc@gmail.com
+ * Quote: Peasant. Educated. Worker
  */
+
 /**
  * Changed Looper#mLogging to {@see UILooperPrinter}, so we can record the time every {@see Message} took
  */
