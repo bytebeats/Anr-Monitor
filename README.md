@@ -21,6 +21,95 @@ Android Performance Tools. ANR, Dead locks and lags.
 <br>通过 Thread#enumerate(Thread[])获取全部线程, 并利用算法查找此时竞争同一把锁的线程竞争闭环, 从而找出死锁的信息.
 <br>因为需要 Hook 底层 Monitor#GetLockOwnerThreadId 函数, 所以使用了 JNI 和 NDK 技术.
 
+## How to use?
+<br>使用指定地址的 MavenCentral:
+<br>在根build.gradle文件中, 添加:
+```    repositories {
+           maven { url('https://repo1.maven.org/maven2/') }
+           ...
+       }```
+<br>在 module build.gradle 文件中, 添加:
+```    //load from maven central
+       implementation('io.github.bytebeats:anr:1.0.0')
+       implementation('io.github.bytebeats:lags:1.0.1')
+       implementation('io.github.bytebeats:deadlock:1.0.0')```
+<br>在自定义的 Application 中:
+```class APMApplication : Application() {
+   //    val anrMonitor = AnrMonitor(3000)
+       val anrMonitor = AnrMonitor2(3000)
+
+       val silentAnrListener = object : AnrListener {
+           override fun onAppNotResponding(error: AnrError) {
+               Log.d("anr-log", "onAppNotResponding", error)
+           }
+       }
+
+       var duration = 4L
+
+       override fun onCreate() {
+           super.onCreate()
+           AnrLog.logStackTrace = false
+           anrMonitor.setIgnoreDebugger(true)
+               .setReportAllThreads()
+               .setAnrListener(object : AnrListener {
+                   override fun onAppNotResponding(error: AnrError) {
+                       AnrLog.logd("onAppNotResponding")
+                       AnrLog.logd(error)
+                       try {
+                           ObjectOutputStream(ByteArrayOutputStream()).writeObject(error)
+                       } catch (e: IOException) {
+                           throw RuntimeException(e)
+                       }
+                       AnrLog.logd("Anr Error was successfully serialized")
+   //                    throw error
+                   }
+               }).setAnrInterceptor(object : AnrInterceptor {
+                   override fun intercept(duration: Long): Long {
+                       val ret = this@APMApplication.duration - duration
+                       if (ret > 0) {
+                           AnrLog.logd(
+                               "Intercepted ANR that is too short ($duration ms), postponing for $ret ms."
+                           )
+                       }
+                       return ret
+                   }
+               })
+   //            .setOnInterruptedListener(object : OnInterruptedListener {
+   //                override fun onInterrupted(e: InterruptedException) {
+   //                    throw e
+   //                }
+   //            })
+           ProcessLifecycleOwner.get().lifecycle.addObserver(anrMonitor)
+
+           val lagMonitor = LagMonitor.Builder(this.applicationContext)
+               .setThresholdTimeMillis(3000L)
+               .setLagLogEnabled(true)
+               .setMonitorMode(LagMonitor.MonitorMode.UI)
+               .setOnFrameJankListener(object : OnFrameJankListener {
+                   override fun onJank(janks: Int) {
+                       Log.d("lag-log", "janks: $janks")
+                   }
+               })
+               .setOnUIThreadRunListener(object : OnUIThreadBlockListener {
+                   override fun onBlock(lagTime: Long, uiRunTime: Long) {
+                       Log.d("lag-log", "lagTime: $lagTime,  uiRunTime: $uiRunTime")
+                   }
+               })
+               .setOnProcessNotRespondingListener(object : OnProcessNotRespondingListener {
+                   override fun onNotResponding(processInfo: String?) {
+                       Log.d("lag-log", "processInfo: $processInfo")
+                   }
+               })
+               .build()
+   //        ProcessLifecycleOwner.get().lifecycle.addObserver(lagMonitor)
+       }
+
+       override fun onTerminate() {
+           super.onTerminate()
+           anrMonitor.onAppTerminate()
+       }
+   }```
+
 ## Stargazers over time
 
 [![Stargazers over time](https://starchart.cc/bytebeats/Anr-Monitor.svg)](https://starchart.cc/bytebeats/Anr-Monitor)
