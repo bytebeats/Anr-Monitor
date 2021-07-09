@@ -35,7 +35,7 @@ Android Performance Tools. ANR, Dead locks and lags.
        implementation('io.github.bytebeats:deadlock:1.0.0')`
 <br>在自定义的 Application 中:
 `class APMApplication : Application() {
-   //    val anrMonitor = AnrMonitor(3000)
+       val anrMonitor = AnrMonitor(3000)
        val anrMonitor = AnrMonitor2(3000)
 
        val silentAnrListener = object : AnrListener {
@@ -61,7 +61,7 @@ Android Performance Tools. ANR, Dead locks and lags.
                            throw RuntimeException(e)
                        }
                        AnrLog.logd("Anr Error was successfully serialized")
-   //                    throw error
+                       throw error
                    }
                }).setAnrInterceptor(object : AnrInterceptor {
                    override fun intercept(duration: Long): Long {
@@ -74,11 +74,11 @@ Android Performance Tools. ANR, Dead locks and lags.
                        return ret
                    }
                })
-   //            .setOnInterruptedListener(object : OnInterruptedListener {
-   //                override fun onInterrupted(e: InterruptedException) {
-   //                    throw e
-   //                }
-   //            })
+               .setOnInterruptedListener(object : OnInterruptedListener {
+                   override fun onInterrupted(e: InterruptedException) {
+                       throw e
+                   }
+               })
            ProcessLifecycleOwner.get().lifecycle.addObserver(anrMonitor)
 
            val lagMonitor = LagMonitor.Builder(this.applicationContext)
@@ -101,7 +101,7 @@ Android Performance Tools. ANR, Dead locks and lags.
                    }
                })
                .build()
-   //        ProcessLifecycleOwner.get().lifecycle.addObserver(lagMonitor)
+           ProcessLifecycleOwner.get().lifecycle.addObserver(lagMonitor)
        }
 
        override fun onTerminate() {
