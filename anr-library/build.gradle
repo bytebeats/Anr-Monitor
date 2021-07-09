@@ -32,8 +32,5 @@ android {
 dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-//    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
-//    implementation "androidx.lifecycle:lifecycle-extensions-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-process:$lifecycle_version"
-//    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 }
