@@ -24,17 +24,17 @@ Android Performance Tools. ANR, Dead locks and lags.
 ## How to use?
 <br>使用指定地址的 MavenCentral:
 <br>在根build.gradle文件中, 添加:
-```    repositories {
+`    repositories {
            maven { url('https://repo1.maven.org/maven2/') }
            ...
-       }```
+       }`
 <br>在 module build.gradle 文件中, 添加:
-```    //load from maven central
+`    //load from maven central
        implementation('io.github.bytebeats:anr:1.0.0')
        implementation('io.github.bytebeats:lags:1.0.1')
-       implementation('io.github.bytebeats:deadlock:1.0.0')```
+       implementation('io.github.bytebeats:deadlock:1.0.0')`
 <br>在自定义的 Application 中:
-```class APMApplication : Application() {
+`class APMApplication : Application() {
    //    val anrMonitor = AnrMonitor(3000)
        val anrMonitor = AnrMonitor2(3000)
 
@@ -108,7 +108,7 @@ Android Performance Tools. ANR, Dead locks and lags.
            super.onTerminate()
            anrMonitor.onAppTerminate()
        }
-   }```
+   }`
 
 ## Stargazers over time
 
