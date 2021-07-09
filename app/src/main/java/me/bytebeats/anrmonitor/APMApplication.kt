@@ -72,7 +72,7 @@ class APMApplication : Application() {
         ProcessLifecycleOwner.get().lifecycle.addObserver(anrMonitor)
 
         val lagMonitor = LagMonitor.Builder(this.applicationContext)
-            .setThresholdTimeMillis(3L)
+            .setThresholdTimeMillis(3000L)
             .setLagLogEnabled(true)
             .setMonitorMode(LagMonitor.MonitorMode.UI)
             .setOnFrameJankListener(object : OnFrameJankListener {

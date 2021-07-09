@@ -40,15 +40,16 @@ dependencies {
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
-//    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
-//    implementation "androidx.lifecycle:lifecycle-extensions-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-process:$lifecycle_version"
-//    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 
-    implementation(project(path: ':anr-library'))
-//    implementation('io.github.bytebeats:anr:1.0.0')
-    implementation(project(path: ':lags-library'))
-    implementation project(path: ':deadlock-library')
+//    implementation(project(path: ':anr-library'))
+//    implementation(project(path: ':lags-library'))
+//    implementation project(path: ':deadlock-library')
+
+    //load from maven central
+    implementation('io.github.bytebeats:anr:1.0.0')
+    implementation('io.github.bytebeats:lags:1.0.1')
+    implementation('io.github.bytebeats:deadlock:1.0.0')
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
