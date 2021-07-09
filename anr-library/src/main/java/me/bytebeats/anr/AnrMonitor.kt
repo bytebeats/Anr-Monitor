@@ -143,7 +143,7 @@ class AnrMonitor(private val timeoutInterval: Long = DEFAULT_ANR_TIMEOUT) : Thre
                 mainHandler.post(mTicker)
             }
             try {
-                Thread.sleep(timeoutInterval)
+                Thread.sleep(interval)
             } catch (e: InterruptedException) {
                 mInterruptedListener?.onInterrupted(e)
                 return
@@ -192,6 +192,13 @@ class AnrMonitor(private val timeoutInterval: Long = DEFAULT_ANR_TIMEOUT) : Thre
 
     private fun onAppStop() {
         mStopped = true
+    }
+
+    /**
+     * When {@see Application#onTerminate()} is called, invoke this method manually.
+     */
+    fun onAppTerminate() {
+        interrupt()
     }
 
     @Synchronized

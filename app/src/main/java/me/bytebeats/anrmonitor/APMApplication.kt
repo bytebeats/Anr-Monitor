@@ -8,6 +8,7 @@ import me.bytebeats.anr.AnrInterceptor
 import me.bytebeats.anr.AnrListener
 import me.bytebeats.anr.AnrLog
 import me.bytebeats.anr.AnrMonitor
+import me.bytebeats.anr.AnrMonitor2
 import me.bytebeats.anr.OnInterruptedListener
 import me.bytebeats.lag.LagMonitor
 import me.bytebeats.lag.OnFrameJankListener
@@ -24,7 +25,8 @@ import java.io.ObjectOutputStream
  */
 
 class APMApplication : Application() {
-    val anrMonitor = AnrMonitor(3000)
+//    val anrMonitor = AnrMonitor(3000)
+    val anrMonitor = AnrMonitor2(3000)
 
     val silentAnrListener = object : AnrListener {
         override fun onAppNotResponding(error: AnrError) {
@@ -42,13 +44,14 @@ class APMApplication : Application() {
             .setAnrListener(object : AnrListener {
                 override fun onAppNotResponding(error: AnrError) {
                     AnrLog.logd("onAppNotResponding")
+                    AnrLog.logd(error)
                     try {
                         ObjectOutputStream(ByteArrayOutputStream()).writeObject(error)
                     } catch (e: IOException) {
                         throw RuntimeException(e)
                     }
                     AnrLog.logd("Anr Error was successfully serialized")
-                    throw error
+//                    throw error
                 }
             }).setAnrInterceptor(object : AnrInterceptor {
                 override fun intercept(duration: Long): Long {
@@ -60,12 +63,13 @@ class APMApplication : Application() {
                     }
                     return ret
                 }
-            }).setOnInterruptedListener(object : OnInterruptedListener {
-                override fun onInterrupted(e: InterruptedException) {
-                    throw e
-                }
             })
-//        ProcessLifecycleOwner.get().lifecycle.addObserver(anrMonitor)
+//            .setOnInterruptedListener(object : OnInterruptedListener {
+//                override fun onInterrupted(e: InterruptedException) {
+//                    throw e
+//                }
+//            })
+        ProcessLifecycleOwner.get().lifecycle.addObserver(anrMonitor)
 
         val lagMonitor = LagMonitor.Builder(this.applicationContext)
             .setThresholdTimeMillis(3L)
@@ -88,5 +92,10 @@ class APMApplication : Application() {
             })
             .build()
 //        ProcessLifecycleOwner.get().lifecycle.addObserver(lagMonitor)
+    }
+
+    override fun onTerminate() {
+        super.onTerminate()
+        anrMonitor.onAppTerminate()
     }
 }
