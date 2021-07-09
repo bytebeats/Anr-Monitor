@@ -5,7 +5,7 @@ plugins {
 
 ext {
     LAGS_ARTIFACT_ID = 'lags'
-    LAGS_VERSION = '1.0.0'
+    LAGS_VERSION = '1.0.1'
     LAGS_POM_DESCRIPTION = 'Android lags checking'
 }
 
