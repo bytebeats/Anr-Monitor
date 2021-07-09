@@ -3,6 +3,14 @@ plugins {
     id 'kotlin-android'
 }
 
+ext {
+    ANR_ARTIFACT_ID = 'anr'
+    ANR_VERSION = '1.0.0'
+    ANR_POM_DESCRIPTION = 'Android ANR Manager'
+}
+
+apply from: 'publish_anr.gradle'
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
