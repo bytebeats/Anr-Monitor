@@ -2,6 +2,14 @@ plugins {
     id 'com.android.library'
 }
 
+ext {
+    LAGS_ARTIFACT_ID = 'deadlock'
+    LAGS_VERSION = '1.0.0'
+    LAGS_POM_DESCRIPTION = 'Android deadlock checking'
+}
+
+apply from: 'publish_deadlock.gradle'
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"

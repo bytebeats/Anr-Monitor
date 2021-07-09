@@ -46,7 +46,7 @@ dependencies {
 //    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 
     implementation(project(path: ':anr-library'))
-//    implementation(project(path: ':deadlock-library'))
+//    implementation('io.github.bytebeats:anr:1.0.0')
     implementation(project(path: ':lags-library'))
     implementation project(path: ':deadlock-library')
 
