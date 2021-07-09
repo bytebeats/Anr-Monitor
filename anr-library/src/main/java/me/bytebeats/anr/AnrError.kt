@@ -40,8 +40,7 @@ class AnrError(
             logThreadsWithoutStackTrace: Boolean
         ): AnrError {
             val mainThread = Looper.getMainLooper().thread
-            val threadStackTraces =
-                sortedMapOf<Thread, Array<StackTraceElement>>(ThreadComparator())
+            val threadStackTraces = mutableMapOf<Thread, Array<StackTraceElement>>()
             for (entry in Thread.getAllStackTraces().entries) {
                 if (entry.key == mainThread || entry.key.name.startsWith(prefix) && (logThreadsWithoutStackTrace || !entry.value.isNullOrEmpty())) {
                     threadStackTraces[entry.key] = entry.value
@@ -53,6 +52,7 @@ class AnrError(
             if (!threadStackTraces.containsKey(mainThread)) {
                 threadStackTraces[mainThread] = mainThread.stackTrace
             }
+            threadStackTraces.toSortedMap(ThreadComparator())
             var throwable: StackTraceCollector.StackTraceThrowable? = null
             for (entry in threadStackTraces.entries) {
                 throwable = StackTraceCollector(threadTitle(entry.key), entry.value).StackTraceThrowable(throwable)

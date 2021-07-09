@@ -5,7 +5,7 @@ plugins {
 
 ext {
     ANR_ARTIFACT_ID = 'anr'
-    ANR_VERSION = '1.0.0'
+    ANR_VERSION = '1.0.0.1'
     ANR_POM_DESCRIPTION = 'Android ANR Manager'
 }
 
