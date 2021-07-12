@@ -61,11 +61,11 @@ class LagMonitor private constructor(
     }
 
     private fun getRefreshRate(): Float {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            context.display?.refreshRate ?: 16F
-        } else {
-            (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.refreshRate
-        }
+        return (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.refreshRate
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {//only if context is Activity
+//            context.display?.refreshRate ?: 16F
+//        } else {
+//        }
     }
 
     override fun onAnr(suspecting: Boolean) {
